@@ -1,0 +1,303 @@
+5<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sky Restaurant | Premium Dining Experience</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo">S</div>
+        <div class="brand-text">
+          <h1>Sky Restaurant</h1>
+          <p class="lead">Premium Dining Experience | Order Online</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline" id="wishlistBtn">
+          <i class="fas fa-heart"></i> <span id="wishlistCount">0</span>
+        </button>
+        <div class="orders-count" id="ordersCount">
+          <i class="fas fa-history"></i> Previous Orders: 0
+        </div>
+        <button class="btn btn-secondary" id="viewOrders">
+          <i class="fas fa-archive"></i> View Archive
+        </button>
+      </div>
+    </header>
+
+    <div class="main-container">
+      <section class="menu-section">
+        <div class="menu-header">
+          <h2 class="section-title"><i class="fas fa-utensils"></i> Our Menu</h2>
+          <div class="coupon-section">
+            <input type="text" id="couponInput" placeholder="Enter coupon code">
+            <button class="btn btn-primary" id="applyCoupon">Apply</button>
+          </div>
+        </div>
+        
+        <div class="controls">
+          <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search" placeholder="Search for dishes...">
+          </div>
+          <div class="filters" id="categories"></div>
+        </div>
+
+        <div class="products-grid" id="products"></div>
+      </section>
+
+      <aside class="cart-section">
+        <div class="cart-header">
+          <h2 class="section-title"><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+          <span id="cartCount">0 items</span>
+        </div>
+        
+        <div class="discount-info" id="discountInfo" style="display: none;">
+          <span>Discount applied: <span id="discountAmount">$0.00</span></span>
+          <button class="remove-discount" id="removeDiscount"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="cart-items" id="cartList">
+          <div class="empty-state">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Your cart is empty</p>
+            <p class="text-light">Add some delicious items from our menu</p>
+          </div>
+        </div>
+        
+        <div class="cart-summary">
+          <div class="cart-subtotal">
+            <span>Subtotal:</span>
+            <span id="subtotalPrice">$0.00</span>
+          </div>
+          <div class="cart-discount">
+            <span>Discount:</span>
+            <span id="discountPrice">-$0.00</span>
+          </div>
+          <div class="cart-total">
+            <span>Total:</span>
+            <span id="totalPrice">$0.00</span>
+          </div>
+          <div class="cart-actions">
+            <button class="btn btn-primary" id="checkoutBtn">
+              <i class="fas fa-credit-card"></i> Checkout
+            </button>
+            <button class="btn btn-outline" id="clearCart">
+              <i class="fas fa-trash"></i> Clear
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-backdrop" id="modal">
+      <div class="modal checkout-modal">
+        <div class="modal-header">
+          <h3 class="modal-title"><i class="fas fa-shopping-bag"></i> Complete Your Order</h3>
+          <button class="close-modal" id="closeModal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="checkout-container">
+            <div class="order-summary-section">
+              <h4 class="checkout-subtitle"><i class="fas fa-receipt"></i> Order Summary</h4>
+              <div class="checkout-items" id="checkoutItems"></div>
+              
+              <div class="checkout-coupon">
+                <h4 class="checkout-subtitle"><i class="fas fa-tag"></i> Apply Coupon</h4>
+                <div class="coupon-input-group">
+                  <input type="text" id="checkoutCouponInput" placeholder="Enter coupon code">
+                  <button class="btn btn-primary" id="applyCheckoutCoupon">Apply</button>
+                </div>
+                <div class="available-coupons">
+                  <p class="coupon-label">Available coupons:</p>
+                  <div class="coupon-badges" id="couponBadges"></div>
+                </div>
+              </div>
+              
+              <div class="checkout-totals">
+                <div class="checkout-row">
+                  <span>Subtotal</span>
+                  <span id="checkoutSubtotal">$0.00</span>
+                </div>
+                <div class="checkout-row">
+                  <span>Discount</span>
+                  <span id="checkoutDiscount" class="discount-text">-$0.00</span>
+                </div>
+                <div class="checkout-row total-row">
+                  <span>Total</span>
+                  <span id="checkoutTotal">$0.00</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="customer-info-section">
+              <h4 class="checkout-subtitle"><i class="fas fa-user"></i> Customer Information</h4>
+              <form id="checkoutForm">
+                <div class="form-group">
+                  <label class="form-label">Full Name *</label>
+                  <input type="text" class="form-control" name="name" required placeholder="Your full name">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone Number *</label>
+                  <input type="text" class="form-control" name="phone" required placeholder="01XXXXXXXX">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" class="form-control" name="email" placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Delivery Address / Notes *</label>
+                  <textarea class="form-control" name="address" rows="3" required placeholder="Example: 3rd floor, next to grocery store"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Payment Method *</label>
+                  <select class="form-control" name="paymethod" required>
+                    <option value="">Select payment method</option>
+                    <option value="Cash on delivery">Cash on delivery</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Digital Wallet">Digital Wallet</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Delivery Time</label>
+                  <select class="form-control" name="deliveryTime">
+                    <option value="ASAP">As soon as possible</option>
+                    <option value="30min">In 30 minutes</option>
+                    <option value="1hour">In 1 hour</option>
+                    <option value="2hour">In 2 hours</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <div class="checkbox-group">
+                    <input type="checkbox" id="saveInfo" name="saveInfo">
+                    <label for="saveInfo">Save my information for next time</label>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="closeModalBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" form="checkoutForm">
+            <i class="fas fa-check-circle"></i> Confirm Order
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal-backdrop" id="productDetailModal">
+      <div class="modal product-detail-modal">
+        <div class="modal-header">
+          <h3 class="modal-title" id="productDetailTitle">Product Details</h3>
+          <button class="close-modal" id="closeProductDetail">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="product-detail-content">
+            <div class="product-detail-image" id="productDetailImage"></div>
+            <div class="product-detail-info">
+              <div class="product-header">
+                <h2 class="product-detail-name" id="productDetailName"></h2>
+                <button class="wishlist-btn" id="toggleWishlist">
+                  <i class="far fa-heart"></i>
+                </button>
+              </div>
+              <div class="product-rating">
+                <div class="stars" id="productStars"></div>
+                <span class="rating-text" id="ratingText"></span>
+              </div>
+              <div class="product-detail-category" id="productDetailCategory"></div>
+              <div class="product-detail-price" id="productDetailPrice"></div>
+              <p class="product-detail-desc" id="productDetailDesc"></p>
+              <h4 class="ingredients-title">Ingredients</h4>
+              <div class="ingredients-list" id="productDetailIngredients"></div>
+              <button class="btn btn-primary" id="addFromDetail">
+                <i class="fas fa-cart-plus"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+          
+          <!-- Similar Products Section -->
+          <div class="similar-products-section">
+            <h4 class="similar-title"><i class="fas fa-utensils"></i> You Might Also Like</h4>
+            <div class="similar-products" id="similarProducts"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div class="modal-backdrop" id="wishlistModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title"><i class="fas fa-heart"></i> My Wishlist</h3>
+          <button class="close-modal" id="closeWishlist">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="wishlist-items" id="wishlistItems"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Archive Modal -->
+    <div class="modal-backdrop" id="archiveModal">
+      <div class="modal archive-modal">
+        <div class="modal-header">
+          <h3 class="modal-title"><i class="fas fa-archive"></i> Orders Archive</h3>
+          <button class="close-modal" id="closeArchive">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="archive-search">
+            <h4 class="search-title"><i class="fas fa-search"></i> Search Your Orders</h4>
+            <div class="search-inputs">
+              <div class="search-input-group">
+                <label>Name</label>
+                <input type="text" id="searchName" placeholder="Enter your name">
+              </div>
+              <div class="search-input-group">
+                <label>Phone</label>
+                <input type="text" id="searchPhone" placeholder="01XXXXXXXXX">
+              </div>
+              <div class="search-input-group">
+                <label>Email</label>
+                <input type="email" id="searchEmail" placeholder="your@email.com">
+              </div>
+            </div>
+            <button class="btn btn-primary" id="searchOrdersBtn">
+              <i class="fas fa-search"></i> Search Orders
+            </button>
+          </div>
+          <div class="orders-results" id="ordersResults" style="display: none;">
+            <div class="results-header">
+              <h4><i class="fas fa-receipt"></i> Your Orders</h4>
+              <button class="btn btn-outline btn-sm" id="showAllOrders">Show All</button>
+            </div>
+            <div class="orders-list" id="archiveList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
