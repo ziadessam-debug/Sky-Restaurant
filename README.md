@@ -30,27 +30,21 @@
 
 ### خطوات التشغيل
 
-1. **افتح Terminal/Command Prompt وانتقل لمجلد المشروع:**
-```bash
-cd "D:\منة ويب\project after futuers"
-```
-
-2. **انتقل لمجلد الـ backend:**
+. **انتقل لمجلد الـ backend:**
 ```bash
 cd backend
 ```
-
-3. **تثبيت المكتبات المطلوبة:**
+. **تثبيت المكتبات المطلوبة:**
 ```bash
 npm install
 ```
 
-4. **تشغيل السيرفر:**
+. **تشغيل السيرفر:**
 ```bash
 npm start
 ```
 
-5. **افتح المتصفح وادخل على:**
+. **افتح المتصفح وادخل على:**
 ```
 http://localhost:3000
 ```
@@ -132,4 +126,5 @@ project after futuers/
 
 ---
 Made with ❤️ for Sky Restaurant
+
 
