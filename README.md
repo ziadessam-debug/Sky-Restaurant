@@ -120,11 +120,8 @@ project after futuers/
 - SQLite (better-sqlite3)
 - CORS
 
-## 📞 الدعم
-
-لأي استفسارات أو مشاكل، يرجى التواصل معنا.
-
 ---
 Made with ❤️ for Sky Restaurant
+
 
 
